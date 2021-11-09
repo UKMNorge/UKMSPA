@@ -1,5 +1,5 @@
 # ukm-onepage-js
-Asynkrone call til server for å hente data og legge til HTML i DOM-en
+Asynkrone kall til server for å hente data og legge til HTML i DOM-en
 
 ![alt text](https://github.com/UKMNorge/ukm-onepage-js/blob/main/docs/diagram-ukm-one-page.png?raw=true)
 
