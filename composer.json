@@ -8,5 +8,10 @@
             "email": "kushtrim@ukm.no",
             "role": "Developer"
         }
-    ]
+    ],
+    "autoload": {
+        "psr-4": {
+            "UKMNorge\\OnePage\\": ""
+        }
+    }
 }
