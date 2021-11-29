@@ -1,7 +1,7 @@
 {
     "name": "ukmnorge/spa",
-    "description": "Felles design for UKM.no og undersider",
-    "homepage": "https://github.com/UKMNorge/UKMDesign",
+    "description": "Single Page Application for å hente data dynamisk fra klientside",
+    "homepage": "https://github.com/UKMNorge/ukm-onepage-js",
     "minimum-stability": "dev",
     "authors": [{
             "name": "Kushtrim Aliu",
