@@ -5,20 +5,22 @@ class EventElement {
      * @constructor
      * @param {string} elementIdentification - the identifier of the DOM element
      * @param {string} type - event listener type
-     * @param {function(Element, Promise, UKMOnePage): void} doFunction - function that contains code specific to the context. Example: code to remove a DOM element
+     * @param {function(Element, Promise, UKMOnePage, doAfter): void} doFunction - function that contains code specific to the context. Example: code to remove a DOM element
      * @param {string} url - url to be called after the event is triggered. It is used to identify where the call should be made
      * @param {string} ajaxMethod - GET, POST, PATCH, DELETE
      * @param {string[]} data - data will be fetched from the element defined as 'e' or the event element. The data most be defined as attributes of the DOM element
+     * @param {function(): void} doAfter - This function can be use after the event is triggered and can be called from outside this class
      * @return {void}
      * 
      */
-    constructor(elementIdentification, type, doFunction, url, ajaxMethod, data) {
+    constructor(elementIdentification, type, doFunction, url, ajaxMethod, data, doAfter = null) {
         this.elementIdentification = elementIdentification;
         this.type = type;
         this.doFunction = doFunction;
         this.url = url;
         this.ajaxMethod = ajaxMethod;
         this.data = data;
+        this.doAfter = doAfter;
         
 
         // Call this when the event is triggered
@@ -30,7 +32,7 @@ class EventElement {
     /**
      * Sets the callback function to be called on event trigger
      * @method
-     * @param {function(Element, Array)} callback - function that contains code to be executed on trigger. Example: execute ajax call
+     * @param {function(Element, Array, doAfter)} callback - function that contains code to be executed on trigger. Example: execute ajax call
      * @return {void}
      */
     setCallback(callback) {
@@ -45,9 +47,7 @@ class EventElement {
                 data[d] = $(e.currentTarget).attr(d);
             }
 
-            console.log(this);
-            console.log('aaa');
-            this.callback(e, data);
+            this.callback(e, data, this.doAfter);
         });
     }
 

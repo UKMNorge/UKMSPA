@@ -1,0 +1,12 @@
+{
+    "name": "ukmnorge/design",
+    "description": "Felles design for UKM.no og undersider",
+    "homepage": "https://github.com/UKMNorge/UKMDesign",
+    "minimum-stability": "dev",
+    "authors": [{
+            "name": "Kushtrim Aliu",
+            "email": "kushtrim@ukm.no",
+            "role": "Developer"
+        }
+    ]
+}

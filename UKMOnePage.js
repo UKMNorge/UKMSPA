@@ -46,11 +46,20 @@ class UKMOnePage {
     }
     
     async _runAjaxCall(url, method, data) {
+        var getData = [];    
+
+        if(method == 'GET' && Object.keys(data).length > 0) {
+            for(let key in data) {
+                getData.push(data[key]);
+            }
+        }
+        console.log(getData);
+        
         return new Promise((resolve, reject) => {      
             $.ajax({
-                url: this.ajaxUrl + url + '/',
+                url: this.ajaxUrl + url + '/' + getData.join('/'),
                 method: method,
-                data: data,
+                data: method == 'GET' ? {} : data,
                 success: (res) => {
                     resolve(res);
                 }
@@ -63,10 +72,10 @@ class UKMOnePage {
     _eventListener(eventElements) {
         for(var ev of (eventElements ? eventElements : this.eventElements)) {
             var _this = this;
-            var callback = async function(e, data) {
+            var callback = async function(e, data, doAfter) {
                 // Remember: 'this' refers to the class where the function is called and not this class here!
                 var response = _this._runAjaxCall(this.url, this.ajaxMethod, data);
-                this.doFunction(e, response, _this);
+                this.doFunction(e, response, _this, doAfter);
             }
             ev.setCallback(callback);
             ev.initEvent();
