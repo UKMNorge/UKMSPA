@@ -10,3 +10,7 @@ Asynkrone kall til server for å hente data og legge til HTML i DOM-en
 `ProjectOnePage` - representerer en mer spesifikk implementasjon av rammeverket som passer for r et prosjekt eller en side
 
 `EventElement` - representerer et DOM element som har et event og attributer som passer for det elementet.
+
+
+## Director
+Director klasse brukes for å vise riktig html basert på url.
