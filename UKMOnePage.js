@@ -37,6 +37,13 @@ class UKMOnePage {
         $(el).fadeOut();
     }
 
+    removeElementFromDOMSlideUp(el) {
+        $(el).animate(
+            {'min-height' : 0, 'max-height' : 0, height : 0, padding : 0, margin : 0}, 400, () => {
+            this.removeElementFromDOM(el);
+        });
+    }
+
     appendHTML(el, html) {
         $(el.append(html));
     }
@@ -53,7 +60,6 @@ class UKMOnePage {
                 getData.push(data[key]);
             }
         }
-        console.log(getData);
         
         return new Promise((resolve, reject) => {      
             $.ajax({

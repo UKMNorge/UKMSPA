@@ -9,11 +9,12 @@ class EventElement {
      * @param {string} url - url to be called after the event is triggered. It is used to identify where the call should be made
      * @param {string} ajaxMethod - GET, POST, PATCH, DELETE
      * @param {string[]} data - data will be fetched from the element defined as 'e' or the event element. The data most be defined as attributes of the DOM element
-     * @param {function(): void} doAfter - This function can be use after the event is triggered and can be called from outside this class
+     * @param {function(): void} doBefore - This function will be executed before the event is triggered and it is called inside this class
+     * @param {function(): void} doAfter - This function can be use after the event is triggered and can be called from outside this class. Can be used for CHAIN CALLS!
      * @return {void}
      * 
      */
-    constructor(elementIdentification, type, doFunction, url, ajaxMethod, data, doAfter = null) {
+    constructor(elementIdentification, type, doFunction, url, ajaxMethod, data, doAfter = null, doBefore = null) {
         this.elementIdentification = elementIdentification;
         this.type = type;
         this.doFunction = doFunction;
@@ -21,12 +22,11 @@ class EventElement {
         this.ajaxMethod = ajaxMethod;
         this.data = data;
         this.doAfter = doAfter;
+        this.doBefore = doBefore;
         
-
         // Call this when the event is triggered
         this.callback = null;
         this.ukmOnePage = null;
-
     }
 
     /**
@@ -41,6 +41,8 @@ class EventElement {
 
     initEvent() {
         $(this.elementIdentification).on(this.type, (e) => {
+            if(this.doBefore) this.doBefore();
+
             var data = {}
 
             for(var d of this.data) {
