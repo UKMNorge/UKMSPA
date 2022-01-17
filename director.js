@@ -47,6 +47,26 @@ var Director = class Director {
         }
     }
 
+    // add param
+    // update param
+    addParam(name, value) {
+        const params = new URLSearchParams(window.location.search);
+        params.set(name, value);
+        window.history.replaceState({}, "", decodeURIComponent(`${window.location.pathname}?${params}`));
+    }
+
+    // Returns null if the key is not available
+    getParam(key) {
+        const queryString = window.location.search;
+        console.log(queryString);
+        const urlParams = new URLSearchParams(queryString);
+        return urlParams.get(key);
+    }
+
+    removeParam(key) {
+
+    }
+
     _addToUrl(pageId) {
         const state = { 'page_id': pageId, 'user_id': 5 };
         const title = '';
