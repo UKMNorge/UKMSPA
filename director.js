@@ -17,7 +17,7 @@ var Director = class Director {
         });
     }
 
-    openPage(id, state=true, scrollTop=true) {
+    openPage(id, state=true, scrollTop=false) {
         $('.main-container.page').css('margin-top', '-38px').addClass('hide');
         
         var page = $('.main-container.page#' + id);
