@@ -33,6 +33,10 @@ class SPAInteraction {
         $(el).css('opacity', '.5');
     }
     
+    // To be implemented...
+    showMessage(message, type = null) { // type can be 'error' 'warning' or 'info'
+        alert(message);
+    }
 
     // Server communication
     async runAjaxCall(url, method, data) {
