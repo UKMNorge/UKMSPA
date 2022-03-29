@@ -33,13 +33,27 @@ class SPAInteraction {
         $(el).css('opacity', '.5');
     }
     
-    // To be implemented...
-    showMessage(message, type = null) { // type can be 'error' 'warning' or 'info'
-        alert(message);
-    }
 
+    showMessage(message, type = null) { // type can be 'error' 'warning' or 'info'
+        if(interactionVue) {
+            // interactionVue.
+        }
+        else{
+            console.warn('interactionVue has not been found!');
+        }
+    }
+    
+    showDialog(title, msg, buttons) { // type can be 'error' 'warning' or 'info'
+        if(interactionVue) {
+            interactionVue.openDialog(title, msg, buttons);
+        }
+        else{
+            console.warn('interactionVue has not been found!');
+        }
+    }
+    
     // Server communication
-    async runAjaxCall(url, method, data) {
+    async runAjaxCall(url, method, data, event = null) {
         var getData = [];    
 
         if(method == 'GET' && Object.keys(data).length > 0) {
@@ -48,12 +62,20 @@ class SPAInteraction {
             }
         }
         
+        // event is the evente where the call has been triggered.
+        // if the element is button then a loader will be added
+        var button = event ? ($(event.target).parent().parent().find('button')[0]) : null;
+        if(button) {
+            $(button).append('<div class="spinner-border" role="status"><span class="sr-only"></span></div>');
+        }
+
         return new Promise((resolve, reject) => {      
             $.ajax({
                 url: this.baseURL + url,
                 method: method,
                 data: method == 'GET' ? {} : data,
                 success: (res) => {
+                    $(button).find('.spinner-border').detach();
                     resolve(res);
                 }
             }).fail(function(res) {
