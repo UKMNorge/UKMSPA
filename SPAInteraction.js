@@ -31,8 +31,7 @@ class SPAInteraction {
 
     fadeElementDOM(el) {
         $(el).css('opacity', '.5');
-    }
-    
+    }    
 
     showMessage(title, message, type) { // -1 -> 'error', 0 -> 'normal', 1 -> 'warning'
         if(interactionVue) {
@@ -47,7 +46,7 @@ class SPAInteraction {
         if(interactionVue) {
             interactionVue.openDialog(title, msg, buttons);
         }
-        else{
+        else {
             console.warn('interactionVue has not been found!');
         }
     }
@@ -69,7 +68,8 @@ class SPAInteraction {
             $(button).append('<div class="spinner-border" role="status"><span class="sr-only"></span></div>');
         }
 
-        return new Promise((resolve, reject) => {      
+        return new Promise((resolve, reject) => {  
+            var _this = this;    
             $.ajax({
                 url: this.baseURL + url,
                 method: method,
@@ -79,6 +79,12 @@ class SPAInteraction {
                     resolve(res);
                 }
             }).fail(function(res) {
+                if(res.statusCode().status == 500) {
+                    if(res.responseJSON.errorMessage) {
+                        interactionVue.showMessage('Prosessen kan ikke utføres!', res.responseJSON.errorMessage, -1);
+                    }
+                }
+
                 reject(res);
             });
         });
