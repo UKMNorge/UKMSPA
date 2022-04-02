@@ -34,16 +34,16 @@ class SPAInteraction {
     }
     
 
-    showMessage(message, type = null) { // type can be 'error' 'warning' or 'info'
+    showMessage(title, message, type) { // -1 -> 'error', 0 -> 'normal', 1 -> 'warning'
         if(interactionVue) {
-            // interactionVue.
+            interactionVue.showMessage(title, message, type);
         }
         else{
             console.warn('interactionVue has not been found!');
         }
     }
     
-    showDialog(title, msg, buttons) { // type can be 'error' 'warning' or 'info'
+    showDialog(title, msg, buttons) {
         if(interactionVue) {
             interactionVue.openDialog(title, msg, buttons);
         }
@@ -62,7 +62,7 @@ class SPAInteraction {
             }
         }
         
-        // event is the evente where the call has been triggered.
+        // event is the event where the call has been triggered.
         // if the element is button then a loader will be added
         var button = event ? ($(event.target).parent().parent().find('button')[0]) : null;
         if(button) {
