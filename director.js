@@ -6,6 +6,8 @@ var Director = class Director {
         $(document).ready(() => {
             let page;
             let pageFromUrl = this._getPageFromUrl();
+            let state = true;
+
             if(pageFromUrl && $('#'+pageFromUrl).attr('alone') == 'true') {
                 page = pageFromUrl;
             }
@@ -13,7 +15,9 @@ var Director = class Director {
                 page = $($('.main-container.page')[0]).attr('id');
             }
 
-            this.openPage(page);
+            if(page) {
+                this.openPage(page, state);
+            }
         });
     }
 
@@ -35,7 +39,17 @@ var Director = class Director {
         $('#headerUnderText').html(page.attr('header-under-text'));
 
         if(state) {
-            this._addToUrl(id);
+            // Add current arguments
+            var url = '';
+            var urlParams = new URLSearchParams(window.location.search);
+            
+            urlParams.forEach((value, key) => {
+                if(key != 'page') {
+                    url = url + ('&' + key + '=' + value);
+                }
+            });
+
+            this._addToUrl(id, url);
         }
         
 
@@ -67,10 +81,10 @@ var Director = class Director {
 
     }
 
-    _addToUrl(pageId) {
-        const state = { 'page_id': pageId, 'user_id': 5 };
-        const title = '';
-        const url = '?page='+pageId;
+    _addToUrl(pageId, otherParams = '') {
+        var state = { 'page_id': pageId, 'user_id': 5 };
+        var title = '';
+        var url = '?page=' + pageId + otherParams;        
 
         history.pushState(state, title, url)
     }
