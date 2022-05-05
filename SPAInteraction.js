@@ -75,6 +75,7 @@ class SPAInteraction {
                 method: method,
                 data: method == 'GET' ? {} : data,
                 success: (res) => {
+                    interactionVue.hideLoading();
                     $(button).find('.spinner-border').detach();
                     resolve(res);
                 }
@@ -84,7 +85,8 @@ class SPAInteraction {
                         interactionVue.showMessage('Prosessen kan ikke utføres!', res.responseJSON.errorMessage, -1);
                     }
                 }
-
+                interactionVue.hideLoading();
+                
                 reject(res);
             });
         });
