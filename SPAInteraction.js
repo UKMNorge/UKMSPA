@@ -75,7 +75,6 @@ class SPAInteraction {
                 method: method,
                 data: method == 'GET' ? {} : data,
                 success: (res) => {
-                    interactionVue.hideLoading();
                     $(button).find('.spinner-border').detach();
                     resolve(res);
                 }
