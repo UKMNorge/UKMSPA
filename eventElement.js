@@ -1,4 +1,4 @@
-class EventElement {
+export class EventElement {
     
     /**
      * Represents a element in the DOM.
@@ -52,5 +52,4 @@ class EventElement {
             this.callback(e, data, this.doAfter);
         });
     }
-
 }

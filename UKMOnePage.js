@@ -1,5 +1,5 @@
 /* Abstract class */
-class UKMOnePage {
+export class UKMOnePage {
 
     /**
      * Represents the UKMOnePage functionality.

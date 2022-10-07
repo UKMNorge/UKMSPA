@@ -1,12 +1,12 @@
-
-class SPAInteraction {
+export default class SPAInteraction {
 
     /**
      * Represents the UKMOnePage functionality.
      * @constructor
      */
-    constructor() {
-       this.baseURL = '/app_dev.php/api/';
+    constructor(interactionVue) {
+       this.baseURL = '/api/';
+       this.interactionVue = interactionVue;
     }
 
     // Interaction
@@ -34,8 +34,8 @@ class SPAInteraction {
     }    
 
     showMessage(title, message, type) { // -1 -> 'error', 0 -> 'normal', 1 -> 'warning'
-        if(interactionVue) {
-            interactionVue.showMessage(title, message, type);
+        if(this.interactionVue) {
+            this.interactionVue.showMessage(title, message, type);
         }
         else{
             console.warn('interactionVue has not been found!');
@@ -43,8 +43,8 @@ class SPAInteraction {
     }
     
     showDialog(title, msg, buttons) {
-        if(interactionVue) {
-            interactionVue.openDialog(title, msg, buttons);
+        if(this.interactionVue) {
+            this.interactionVue.openDialog(title, msg, buttons);
         }
         else {
             console.warn('interactionVue has not been found!');
@@ -78,20 +78,17 @@ class SPAInteraction {
                     $(button).find('.spinner-border').detach();
                     resolve(res);
                 }
-            }).fail(function(res) {
+            }).fail((res) => {
                 if(res.statusCode().status == 500) {
                     if(res.responseJSON.errorMessage) {
-                        interactionVue.showMessage('Prosessen kan ikke utføres!', res.responseJSON.errorMessage, -1);
+                        this.interactionVue.showMessage('Prosessen kan ikke utføres!', res.responseJSON.errorMessage, -1);
                     }
                 }
-                interactionVue.hideLoading();
+                console.log('hiding loading...')
+                this.interactionVue.hideLoading();
                 
                 reject(res);
             });
         });
     }
-}
-
-if(!spaInteraction) {
-    var spaInteraction = new SPAInteraction();
 }

@@ -1,4 +1,4 @@
-var Director = class Director {
+export default class Director {
 
     constructor() {
         this._onHistoryChangeState();
@@ -108,5 +108,3 @@ var Director = class Director {
     }
 
 }
-
-var director = new Director();
