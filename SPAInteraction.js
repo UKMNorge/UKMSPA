@@ -3,10 +3,12 @@ export default class SPAInteraction {
     /**
      * Represents the UKMOnePage functionality.
      * @constructor
+     * @param interactionObjekt - Et objekt som representer interaction og har metoder: 
+     *  showMessage(title, message, type), openDialog(title, msg, buttons) og hideLoading()
      */
-    constructor(interactionVue) {
+    constructor(interactionObjekt) {
        this.baseURL = '/api/';
-       this.interactionVue = interactionVue;
+       this.interactionObjekt = interactionObjekt;
     }
 
     // Interaction
@@ -34,20 +36,20 @@ export default class SPAInteraction {
     }    
 
     showMessage(title, message, type) { // -1 -> 'error', 0 -> 'normal', 1 -> 'warning'
-        if(this.interactionVue) {
-            this.interactionVue.showMessage(title, message, type);
+        if(this.interactionObjekt) {
+            this.interactionObjekt.showMessage(title, message, type);
         }
         else{
-            console.warn('interactionVue has not been found!');
+            console.warn('interactionObjekt has not been found!');
         }
     }
     
     showDialog(title, msg, buttons) {
-        if(this.interactionVue) {
-            this.interactionVue.openDialog(title, msg, buttons);
+        if(this.interactionObjekt) {
+            this.interactionObjekt.openDialog(title, msg, buttons);
         }
         else {
-            console.warn('interactionVue has not been found!');
+            console.warn('interactionObjekt has not been found!');
         }
     }
     
@@ -81,11 +83,11 @@ export default class SPAInteraction {
             }).fail((res) => {
                 if(res.statusCode().status == 500) {
                     if(res.responseJSON.errorMessage) {
-                        this.interactionVue.showMessage('Prosessen kan ikke utføres!', res.responseJSON.errorMessage, -1);
+                        this.interactionObjekt.showMessage('Prosessen kan ikke utføres!', res.responseJSON.errorMessage, -1);
                     }
                 }
                 console.log('hiding loading...')
-                this.interactionVue.hideLoading();
+                this.interactionObjekt.hideLoading();
                 
                 reject(res);
             });
