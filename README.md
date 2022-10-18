@@ -42,10 +42,33 @@ Director kan brukes for å legge til attributer på URL og hente dem når det tr
 Brukes til å skape interaksjon i brukergrensesnittet, sende meldinger og mest viktig kjøre API kall.
 
 ```js
+// Kjører AJAX kall, metode GET
 var innslag = await this.spaInteraction.runAjaxCall('get_innslag/'+this.innslag_id, 'GET', {});
 
 ```
 
 ```js
+// Dialog med callback
+var buttons = [{
+	name : 'Slett',
+	class : "aaa",
+	callback : async ()=> {
+	    try{
+		var res = await this.spaInteraction.runAjaxCall('remove_innslag/', 'POST', {pl_id : innslag.context.monstring.id, b_id : innslag.id})
+		if(res) {
+		    // Dont allow the user to go back
+		    refreshOnBack(() => {
+			window.location.href = '/';
+		    });
+		    // Redirect user to home page
+		    window.location.href = '/';
+		}
+	    }catch(err) {
+		// Error
+		console.error(err);
+	    }
+	}
+}];
+
 this.spaInteraction.showDialog('Vil du melde av?', 'Vil du virkelig slette dette innslaget?', buttons);
 ```
