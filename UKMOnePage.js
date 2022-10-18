@@ -1,3 +1,5 @@
+import SPAInteraction from './SPAInteraction';
+
 /* Abstract class */
 export class UKMOnePage {
 
@@ -6,8 +8,10 @@ export class UKMOnePage {
      * @constructor
      * @param {string} ajaxUrl - ajax main url e.g api here -> ...ukm.no/api/getSomething...
      * @param {EventElement []} eventElements - Event elements that contains information about the event and steps to be taken afterwards
+     * @param interactionObjekt - Et objekt som representer interaction og har metoder: 
+     *  showMessage(title, message, type), openDialog(title, msg, buttons) og hideLoading()
      */
-    constructor(ajaxUrl, eventElements) {
+    constructor(ajaxUrl, eventElements, interactionObjekt) {
         // Denne klassen kan ikke konstrueres fordi denne klassen er abstrakt klasse
         if (this.constructor === UKMOnePage) {
             throw new TypeError('Abstract class "UKMOnePage" cannot be instantiated directly.'); 
@@ -15,7 +19,8 @@ export class UKMOnePage {
 
         this.ajaxUrl = ajaxUrl;
         this.eventElements = eventElements;
-
+        
+        this.spaInteraction = new SPAInteraction(interactionObjekt)
         this._eventListener();
     }
 
@@ -29,50 +34,25 @@ export class UKMOnePage {
         this._eventListener(eventElements);
     }
 
-    _showElementDOM(el) {
-        // ...
-    }
-
     removeElementFromDOM(el) {
-        $(el).fadeOut();
+        return this.spaInteraction.removeElementFromDOM(el);
     }
 
     removeElementFromDOMSlideUp(el) {
-        $(el).animate(
-            {'min-height' : 0, 'max-height' : 0, height : 0, padding : 0, margin : 0}, 400, () => {
-            this.removeElementFromDOM(el);
-        });
+        return this.spaInteraction.removeElementFromDOMSlideUp(el);
+
     }
 
     appendHTML(el, html) {
-        $(el.append(html));
+        return this.spaInteraction.appendHTML(el, html);
     }
 
     fadeElementDOM(el) {
-        $(el).css('opacity', '.5');
+        return this.spaInteraction.fadeElementDOM(el)
     }
     
     async _runAjaxCall(url, method, data) {
-        var getData = [];    
-
-        if(method == 'GET' && Object.keys(data).length > 0) {
-            for(let key in data) {
-                getData.push(data[key]);
-            }
-        }
-        
-        return new Promise((resolve, reject) => {      
-            $.ajax({
-                url: this.ajaxUrl + url + '/' + getData.join('/'),
-                method: method,
-                data: method == 'GET' ? {} : data,
-                success: (res) => {
-                    resolve(res);
-                }
-            }).fail(function(res) {
-                reject(res);
-            });
-        });
+        return this.spaInteraction.runAjaxCall(url, method, data);
     }
 
     _eventListener(eventElements) {
@@ -86,10 +66,5 @@ export class UKMOnePage {
             ev.setCallback(callback);
             ev.initEvent();
         }
-        
-        // Fjern innslag x-knapp
-        // $('.fjern-innslag-btn').off('click').click((e) => {
-        //     this.removeInnslag(e);
-        // });
     }
 }
