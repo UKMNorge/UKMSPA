@@ -44,9 +44,9 @@ export default class SPAInteraction {
         }
     }
     
-    showDialog(title, msg, buttons) {
+    showDialog(title, msg, buttons, onCloseCallback) {
         if(this.interactionObjekt) {
-            this.interactionObjekt.openDialog(title, msg, buttons);
+            this.interactionObjekt.openDialog(title, msg, buttons, onCloseCallback);
         }
         else {
             console.warn('interactionObjekt has not been found!');
