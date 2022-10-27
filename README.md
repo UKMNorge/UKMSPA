@@ -70,5 +70,8 @@ var buttons = [{
 	}
 }];
 
-this.spaInteraction.showDialog('Vil du melde av?', 'Vil du virkelig slette dette innslaget?', buttons);
+// Callback function
+var onclose = () => {console.log('the dialog is closed')};
+
+this.spaInteraction.showDialog('Vil du melde av?', 'Vil du virkelig slette dette innslaget?', buttons, onclose);
 ```
