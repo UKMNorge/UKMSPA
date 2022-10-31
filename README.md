@@ -34,6 +34,11 @@ Director klasse brukes for å navigere gjennom sider som er definert i DOM som s
 Director.openPage("pageTestHello");
 ```
 
+### Event listeners
+`openPage` - Når en ny side åpnes gjennom Director ved call på openPage() metode eller tilbake knapp
+
+
+### Notater
 Director kan brukes for å legge til attributer på URL og hente dem når det trengs.
 
 
@@ -70,8 +75,5 @@ var buttons = [{
 	}
 }];
 
-// Callback function
-var onclose = () => {console.log('the dialog is closed')};
-
-this.spaInteraction.showDialog('Vil du melde av?', 'Vil du virkelig slette dette innslaget?', buttons, onclose);
+this.spaInteraction.showDialog('Vil du melde av?', 'Vil du virkelig slette dette innslaget?', buttons);
 ```
