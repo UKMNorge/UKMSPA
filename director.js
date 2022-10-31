@@ -2,6 +2,7 @@ export default class Director {
 
     constructor() {
         this._onHistoryChangeState();
+        this.eventlisteners = [];
 
         $(document).ready(() => {
             let page;
@@ -21,6 +22,14 @@ export default class Director {
         });
     }
 
+    /**
+     * Opens a page in a SPA way
+     * @constructor
+     * @param {string} id - site id, defined on a DOM Element. For example: <div id="pageMeldPaaArrangement">
+     * @param {boolean} state - state
+     * @param {boolean} scrollTop - scroll to the top of the page
+     * 
+     */
     openPage(id, state=true, scrollTop=false) {
         $('.main-container.page').css('margin-top', '-38px').addClass('hide');
         
@@ -59,6 +68,21 @@ export default class Director {
                 $("html, body").animate({ scrollTop: 50 }, 350);
             }
         }
+
+        this._openPageTriggerEvent()
+    }
+    
+    _openPageTriggerEvent(obj) {
+        var obj = {
+            id: this.getParam('page'),
+        }
+
+        if(this.eventlisteners['openPage']) {
+            // Call callback from eventlistener
+            for(var callback of this.eventlisteners['openPage']) {
+                callback(obj);
+            }
+        }
     }
 
     // add param
@@ -72,13 +96,26 @@ export default class Director {
     // Returns null if the key is not available
     getParam(key) {
         const queryString = window.location.search;
-        console.log(queryString);
         const urlParams = new URLSearchParams(queryString);
         return urlParams.get(key);
     }
 
     removeParam(key) {
 
+    }
+
+    /**
+     * Add event listeners. See the methods or documentation for event listeners supported
+     * @constructor
+     * @param {string} key - the key of the event listeners
+     * @param {function(siteData): void} callback - callback function to be triggered on callback
+     * 
+     */
+    addEventListener(key, callback) {
+        if(!this.eventlisteners[key]) {
+            this.eventlisteners[key] = [];
+        }
+        this.eventlisteners[key].push(callback);
     }
 
     _addToUrl(pageId, otherParams = '') {
@@ -101,6 +138,13 @@ export default class Director {
         window.onpopstate = history.onpushstate = (e) => {
             this.openPage(this._getPageFromUrl(), false, false);
         }
+
+        $(window).on('popstate', (e) => {
+            var state = e.originalEvent.state;
+            if (state !== null) {
+                this._openPageTriggerEvent()
+            }
+        });
     }
 
     _initPages() {
