@@ -67,6 +67,7 @@ export default class SPAInteraction {
         // if the element is button then a loader will be added
         var button = event ? ($(event.target).parent().parent().find('button')[0]) : null;
         if(button) {
+            $(button).find('.spinner-border').detach();
             $(button).append('<div class="spinner-border" role="status"><span class="sr-only"></span></div>');
         }
 
@@ -81,12 +82,18 @@ export default class SPAInteraction {
                     resolve(res);
                 }
             }).fail((res) => {
+                // The call has returned an error, remove the spinner
+                $(button).find('.spinner-border').detach();
+
                 if(res.statusCode().status == 500) {
                     if(res.responseJSON.errorMessage) {
                         this.interactionObjekt.showMessage('Prosessen kan ikke utføres!', res.responseJSON.errorMessage, -1);
                     }
                 }
-                console.log('hiding loading...')
+                else if(res.statusCode().status == 400) {
+                    this.interactionObjekt.showMessage('Det er noe som mangler!', res.responseJSON.errorMessage, 0);
+                }
+
                 this.interactionObjekt.hideLoading();
                 
                 reject(res);
