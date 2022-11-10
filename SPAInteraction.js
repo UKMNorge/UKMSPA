@@ -91,7 +91,7 @@ export default class SPAInteraction {
                     }
                 }
                 else if(res.statusCode().status == 400) {
-                    this.interactionObjekt.showMessage('Det er noe som mangler!', res.responseJSON.errorMessage, 0);
+                    // this.interactionObjekt.showMessage('Det er noe som mangler!', res.responseJSON.errorMessage, 0);
                 }
 
                 this.interactionObjekt.hideLoading();
