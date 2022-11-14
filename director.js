@@ -123,7 +123,22 @@ export default class Director {
         var title = '';
         var url = '?page=' + pageId + otherParams;        
 
-        history.pushState(state, title, url)
+        this._pushStateToHistory(state, title, url)
+    }
+
+    // Push state to window history
+    _pushStateToHistory(state, title, url) {
+        // If the browser has a window history and state
+        if(window.history && window.history.state) {
+            // Save window state
+            var windowState = window.history.state;
+            // If windowState is not null, windowState page_id and otherParams is the same as state
+            // Trying to add the samme url, therefor return and don't add the samme url in history
+            if(windowState && windowState.page_id == state.page_id && windowState.otherParams == state.otherParams) {
+                return;
+            }
+        }
+        history.pushState(state, title, url);
     }
 
     _getPageFromUrl() {
