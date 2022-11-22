@@ -12,7 +12,7 @@ Less mer om SPA: https://developer.mozilla.org/en-US/docs/Glossary/SPA
 `ProjectOnePage` - representerer en mer spesifikk implementasjon av rammeverket som passer for et prosjekt eller en side
 
 ## EventElement
-representerer et DOM element som har et event og attributer som passer for det elementet.
+representerer et DOM element som har et event og attributter som passer for det elementet.
 
 ```js
 deltaOnePage.addEventElements([
@@ -39,7 +39,7 @@ Director.openPage("pageTestHello");
 
 
 ### Notater
-Director kan brukes for å legge til attributer på URL og hente dem når det trengs.
+Director kan brukes for å legge til attributter på URL og hente dem når det trengs.
 
 
 ## SPAInteraction
