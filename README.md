@@ -46,34 +46,44 @@ Director kan brukes for å legge til attributter på URL og hente dem når det t
 
 Brukes til å skape interaksjon i brukergrensesnittet, sende meldinger og mest viktig kjøre API kall.
 
+HUSK: for å konstuere en ny instanse av SPAInteraction må et objekt sendes. Dette objekte må implementere disse metodene:
+* showMessage(title, message, type)
+* openDialog(title, msg, buttons)
+* hideLoading()
+
+Eksempel av objektet:
+
 ```js
-// Kjører AJAX kall, metode GET
+export var interactionVue = new Vue({
+    methods : {
+        openDialog : function(title, msg, buttons = null, onCloseCallback) {
+            // Implementering
+        },
+        showMessage : function(title, msg, type = 0) {
+            // Implementering
+        },
+        hideLoading : function() {
+            // Implementering
+        }
+    }
+})
+```
+
+#### Kjører AJAX kall, metode GET
+```js
 var innslag = await this.spaInteraction.runAjaxCall('get_innslag/'+this.innslag_id, 'GET', {});
 
 ```
 
+#### Dialog med callback
 ```js
-// Dialog med callback
 var buttons = [{
 	name : 'Slett',
 	class : "aaa",
 	callback : async ()=> {
-	    try{
-		var res = await this.spaInteraction.runAjaxCall('remove_innslag/', 'POST', {pl_id : innslag.context.monstring.id, b_id : innslag.id})
-		if(res) {
-		    // Dont allow the user to go back
-		    refreshOnBack(() => {
-			window.location.href = '/';
-		    });
-		    // Redirect user to home page
-		    window.location.href = '/';
-		}
-	    }catch(err) {
-		// Error
-		console.error(err);
-	    }
+	    // Slett noe
 	}
 }];
 
-this.spaInteraction.showDialog('Vil du melde av?', 'Vil du virkelig slette dette innslaget?', buttons);
+this.spaInteraction.showDialog('Vil du melde av?', 'Vil du virkelig slette dette?', buttons);
 ```
